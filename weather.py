@@ -1,5 +1,5 @@
 import requests
-from geolocation_module import get_country_code, get_lon_lat_location, get_location_name
+from geolocation_module import get_country_code, get_l👉on_lat_location, get_location_name
 from city_weather_module import get_location_weather
 from hourly_forecast import get_hourly_weather
 import os
@@ -12,13 +12,24 @@ menu = ['Search Weather by Location', 'My Saved Locations', 'Historical Weather 
 
 exit_to_main = False
 while True: 
+    print("\n" + "=" * 37)
+    print(" WEATHER APP ".center(37, "="))
+    print("=" * 37 + "\n")
+
     for index, options in enumerate(menu, 1):
         print (f"{index}. {options}")
 
-    menu_user_input = input("Enter an index from the main menu \t")
+    print("\n" + "=" * 37 + "\n")
+
+    print("\n" + "-" * 37)
+    menu_user_input = input(" Please enter your choice: ")
+    print("-" * 37 + "\n")
+
+
 
     if int(menu_user_input) == 1:
         while True:
+            os.system('clear') # clear screen
             country_code = get_country_code()
             location_name = get_location_name(country_code)
             lat_location,lon_location = get_lon_lat_location(location_name, country_code, api_key)
