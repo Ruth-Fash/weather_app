@@ -1,11 +1,15 @@
 import requests
-from geolocation_module import get_country_code, get_l👉on_lat_location, get_location_name
+from geolocation_module import get_country_code, get_lon_lat_location, get_location_name
 from city_weather_module import get_location_weather
 from hourly_forecast import get_hourly_weather
+from save_location import save_location_input, append_csv, print_csv, selection
 import os
 import csv
+from datetime import date
 api_key = "9d155096c4339d42978deb57ae2027e2"
-menu = ['Search Weather by Location', 'My Saved Locations', 'Historical Weather Lookup' 'Settings']
+menu = ['Search Weather by Location', 'My Saved Locations', 'Historical Weather Lookup' 'Settings', 'Exit']
+# Get today's date
+today = date.today().strftime("%Y-%m-%d")
 
 
 # Main Menu
@@ -26,7 +30,6 @@ while True:
     print("-" * 37 + "\n")
 
 
-
     if int(menu_user_input) == 1:
         while True:
             os.system('clear') # clear screen
@@ -37,12 +40,22 @@ while True:
             os.system('clear') # clear screen
             print(f"Location: {location_name} | Country Code: {country_code} ")        
             get_location_weather(lat_location, lon_location, api_key)
+
+            save_location_answer = save_location_input()
+            data = [today, location_name, country_code]
+            if save_location_answer == "Y":
+                append_csv(data)
+            else:
+                os.system('clear')
+                print("✘ Location not saved.")
+
+
             while True:
                 user_choice = input(
-                    "What would you like to do next?\n"
+                    "\nWhat would you like to do next?\n"
                     "Enter 'H' to see the hourly forecast,\n"
                     "'F' to see the 5-day forecast,\n"
-                    "'Y' to search for another city,\n"
+                    "'Y' to search for another location,\n"
                     "or 'N' to return to the main menu: "
                 ).strip().upper()
 
@@ -53,7 +66,7 @@ while True:
 
                 elif user_choice == "F":
                     os.system('clear')
-                    print("7-day forecast")
+                    print("5-day forecast pending....")
                     continue # Back to main menu
 
                 elif user_choice == 'Y':
@@ -71,6 +84,24 @@ while True:
 
             if exit_to_main:
                 break  # break the city searching loop
+
+
+
+    if int(menu_user_input) == 2:
+        os.system('clear')
+        print_csv()
+        location, code = selection()
+
+        os.system('clear')
+        lat,lon = get_lon_lat_location(location, code, api_key)
+        print(f"Location: {location} | Country Code: {code} ")        
+        get_location_weather(lat, lon, api_key)
+        break
+
+        
+    
+
+    
 
 
 
