@@ -1,7 +1,10 @@
-from hourly_forecast import get_hourly_weather
+from modules.weather_module import get_hourly_weather
+from modules.settings_module import load_settings
 import os
 
-exit_to_main = False
+settings = load_settings()
+
+
 
 def user_next_action(lat_location, lon_location, api_key):
     while True:
@@ -15,7 +18,7 @@ def user_next_action(lat_location, lon_location, api_key):
 
         if user_choice == "H":
             os.system('clear')
-            hourly_weather = get_hourly_weather(lat_location, lon_location, api_key)
+            hourly_weather = get_hourly_weather(lat_location, lon_location, api_key, settings["units"])
             continue
 
         elif user_choice == "F":
