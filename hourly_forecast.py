@@ -2,9 +2,9 @@ from geolocation_module import get_country_code
 import requests
 
 
-def get_hourly_weather(lat, lon, api_key):
+def get_hourly_weather(lat, lon, api_key, units):
 
-    url = f"https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={api_key}&units=metric&cnt=8"
+    url = f"https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={api_key}&units={units}&cnt=8"
     response = requests.get(url) # get request
     data = response.json() # data from request
     
