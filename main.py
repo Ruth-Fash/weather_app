@@ -1,6 +1,6 @@
 import requests
 from modules.geolocation_module import get_country_code, get_lon_lat_location, get_location_name
-from modules.weather_module import get_location_weather, get_hourly_weather
+from modules.weather_module import get_location_weather, get_hourly_weather, specific_date, date_input
 from modules.saved_location import save_location_input, append_csv, print_csv, selection
 from modules.general_function import user_next_action
 from modules.settings_module import save_settings, load_settings, change_units_menu, save_settings_default, load_default, change_default
@@ -9,13 +9,14 @@ import csv
 from datetime import date
 import sys
 api_key = "9d155096c4339d42978deb57ae2027e2"
+vc_api_key = "DEBDW5XCAE77P6L8XBTEBKX2C"
 menu = ['Search Weather by Location', 'My Saved Locations', 'Historical Weather Lookup', 'Settings', 'Exit']
 setting_menu = ['Change Tempreture Units', 'Change Default Location', 'Main Menu']
 # Get today's date
 today = date.today().strftime("%Y-%m-%d")
 
 
-# Main Menu
+# Default Location Weather
 while True:
     os.system('clear') # clear screen
     
@@ -35,6 +36,7 @@ while True:
 
     elif next_action == "" :
 
+# Main Menu
         while True: 
             os.system('clear') # clear screen
             print("\n" + "=" * 37)
@@ -47,7 +49,7 @@ while True:
             print( "=" * 37 )
             menu_user_input = input(" Please enter your choice: ")
 
-
+# 1st Sub-Menu =  location weather
             if int(menu_user_input) == 1:
                 while True:
                     os.system('clear') # clear screen
@@ -72,6 +74,7 @@ while True:
                     if action == "main_menu":
                         break
 
+# 2nd Sub-Menu =  Saved locations
             if int(menu_user_input) == 2:
                 os.system('clear')
                 print_csv()
@@ -81,11 +84,22 @@ while True:
                 lat,lon = get_lon_lat_location(location, code, api_key)
                 print(f"Location: {location} | Country Code: {code} ")        
                 get_location_weather(lat, lon, api_key, settings["units"])
-
                 action = user_next_action(lat,lon, api_key)
 
 
+            if int(menu_user_input) == 3:
+                os.system('clear')
+                date_answer = date_input()
+                code3 = get_country_code()
+                location3 = get_location_name(code3)
+                lat3, lon3 = get_lon_lat_location(location3,code3,api_key)
 
+                os.system('clear')
+                specific_date(lat3, lon3, vc_api_key, date_answer)
+                input("\nPress Enter to go back to main menu...")
+
+
+# 4th Sub-Menu =  Settings
             if int(menu_user_input) == 4:
                 os.system('clear')
                 print("\n" + "=" * 37)
@@ -112,6 +126,7 @@ while True:
                 if int(setting_user_input) == 3:
                     break
 
+# Ecxit App
             if int(menu_user_input) == 5:
                 sys.exit()
 

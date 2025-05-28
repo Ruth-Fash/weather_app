@@ -10,10 +10,11 @@ def user_next_action(lat_location, lon_location, api_key):
     while True:
         user_choice = input(
             "\nWhat would you like to do next?\n"
-            "Enter 'H' to see the hourly forecast,\n"
+                        "Enter\n"
+            "'H' to see the hourly forecast,\n"
             "'F' to see the 5-day forecast,\n"
             "'Y' to search for another location,\n"
-            "or 'N' to return to the main menu: "
+            "'N' to return to the main menu: "
         ).strip().upper()
 
         if user_choice == "H":
@@ -23,7 +24,7 @@ def user_next_action(lat_location, lon_location, api_key):
 
         elif user_choice == "F":
             os.system('clear')
-            print("5-day forecast pending....")
+            print("5-day forecast under construction....")
             continue # Back to main menu
 
         elif user_choice == 'Y':

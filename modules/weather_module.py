@@ -1,5 +1,7 @@
 import os
 import requests
+from modules.geolocation_module import get_country_code, get_location_name, get_lon_lat_location
+from datetime import datetime
 
 
 def get_location_weather(lat, lon, api_key, units):
@@ -50,5 +52,48 @@ def get_hourly_weather(lat, lon, api_key, units):
         temp = forecast["main"]["temp"]
         weather_desc = forecast["weather"][0]['main']
         print(f"{time_only:<8} {temp:<10.1f} {weather_desc:<15}")
+
+
+
+def date_input():
+    while True:
+        user_input = input("Enter date you would like to search (yyyy-mm-dd): ")
+
+        if not user_input:
+            print ("Date does not exist or data is missing. Please try again in the correct format (yyyy-mm-dd).")
+            continue
+        try:
+            # Try to parse the date
+            datetime.strptime(user_input, "%Y-%m-%d")
+            # If parsing succeeds, return the valid date string
+            return user_input
+        except ValueError:
+            print("Invalid date format or non-existent date. Please try again in the format yyyy-mm-dd.")
+    
+
+
+
+def specific_date(lat, lon, api_key, date):
+    specific_date_url = f"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{lat},{lon}/{date}?unitGroup=uk&key={api_key}"
+    response = requests.get(specific_date_url)
+    data = response.json()
+    
+    day = data['days'][0]
+    date = day['datetime']
+    temp_max = day['tempmax']
+    temp_min = day['tempmin']
+    temp_avg = day['temp']
+
+    print(f"\n🕰️ Weather report from {date} 🕰️")
+    print(f"On this day, the temperature ranged from {temp_min}° to {temp_max}°, averaging around {temp_avg}°.")
+
+    if temp_max > 25:
+        print("It was a warm day! Perfect for some sunshine. ☀️")
+    elif temp_max < 10:
+        print("Quite chilly that day — a day to bundle up! 🧥")
+    else:
+        print("Mild weather — not too hot, not too cold. Just right! 🌤️")
+ 
+
 
 
