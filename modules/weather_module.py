@@ -32,6 +32,10 @@ def get_location_weather(lat, lon, api_key, units):
     print("-" * 35)
 
 
+    
+
+
+
 def get_hourly_weather(lat, lon, api_key, units):
 
     url = f"https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={api_key}&units={units}&cnt=8"

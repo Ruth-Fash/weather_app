@@ -25,7 +25,7 @@ while True:
 
     city = settings_default.get("city")
     code = settings_default.get("country_code")
-    lon1, lat1 = get_lon_lat_location(city, code, api_key)
+    lat1, lon1 = get_lon_lat_location(city, code, api_key)
 
     print(f"Location: {city} | Country Code: {code} ") 
     get_location_weather(lat1, lon1, api_key, settings["units"])
@@ -115,7 +115,7 @@ while True:
                 
                 if int(setting_user_input) == 1:
                     os.system('clear')
-                    change_default(settings_default)
+                    change_units_menu(settings)
                     continue
 
                 if int(setting_user_input) == 2:
