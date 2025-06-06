@@ -1,6 +1,7 @@
 import json
-from modules.geolocation_module import get_country_code, get_location_name
+from modules.weather_module import get_country_code, get_location_name
 from datetime import datetime
+
 
 def load_settings():
     try:
@@ -63,6 +64,13 @@ def change_default(settings):
 
     else:
         print("No changes made to default location.")
+
+
+
+
+
+
+
 
     
 

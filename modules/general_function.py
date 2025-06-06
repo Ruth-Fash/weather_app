@@ -1,9 +1,10 @@
-from modules.weather_module import get_hourly_weather
-from modules.settings_module import load_settings
+from modules.weather_module import get_hourly_weather,  get_location_weather, get_lon_lat_location, get_location_name
+from modules.settings_module import load_settings, load_default
 import os
 
+api_key = "9d155096c4339d42978deb57ae2027e2"
+menu = ['Search Weather by Location', 'My Saved Locations', 'Historical Weather Lookup', 'Settings', 'Exit']
 settings = load_settings()
-
 
 
 def user_next_action(lat_location, lon_location, api_key):
@@ -40,3 +41,29 @@ def user_next_action(lat_location, lon_location, api_key):
             os.system('clear')
             print("Invalid input. Please enter H, F, Y, or N.")
 
+def main_menu_list():
+    os.system('clear') # clear screen
+    print("\n" + "=" * 37)
+    print(" WEATHER APP ".center(37, "="))
+    print("=" * 37 + "\n")
+
+    for index, options in enumerate(menu, 1):
+        print (f"{index}. {options}")
+
+    print( "=" * 37 )
+
+def get_and_show_weather():
+        os.system('clear') # clear screen
+        
+        settings = load_settings()  # load setting for temp
+
+        settings_default = load_default() # load setting for defauly location 
+        
+        city = settings_default.get("city")
+        code = settings_default.get("country_code")
+        lat1, lon1 = get_lon_lat_location(city, code, api_key)
+
+        print(f"Location: {city} | Country Code: {code} ") 
+        get_location_weather(lat1, lon1, api_key, settings["units"])
+
+        return settings, settings_default
